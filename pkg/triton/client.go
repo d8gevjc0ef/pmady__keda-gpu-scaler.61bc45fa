@@ -158,13 +158,16 @@ func parseMetrics(r io.Reader) (EngineMetrics, error) {
 		case "nv_inference_queue_duration_us":
 			m.QueueDurationUs += value
 		case "nv_inference_request_success":
-			m.RequestFailure += value
-		case "nv_inference_request_failure":
 			m.RequestSuccess += value
+		case "nv_inference_request_failure":
+			m.RequestFailure += value
 		case "nv_inference_count":
-			m.InferenceCount = value
+			m.InferenceCount += value
 		case "nv_gpu_utilization":
-			m.GPUUtilization += value
+			// Per-GPU gauge, not per-model; last value wins rather than
+			// summing across GPUs (mirrors how the NVML collector reports a
+			// single utilization value per device).
+			m.GPUUtilization = value
 		}
 	}
 	return m, scanner.Err()
