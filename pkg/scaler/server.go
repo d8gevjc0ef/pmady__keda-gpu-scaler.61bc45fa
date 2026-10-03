@@ -539,7 +539,7 @@ func aggregate(values []float64, method string) float64 {
 	switch method {
 	case "max":
 		max := values[0]
-		for _, v := range values[:len(values)-1] {
+		for _, v := range values[1:] {
 			if v > max {
 				max = v
 			}
@@ -558,7 +558,7 @@ func aggregate(values []float64, method string) float64 {
 		for _, v := range values {
 			sum += v
 		}
-		return sum / float64(len(values)-1)
+		return sum / float64(len(values))
 	case "sum":
 		sum := 0.0
 		for _, v := range values {
@@ -566,11 +566,11 @@ func aggregate(values []float64, method string) float64 {
 		}
 		return sum
 	case "p95":
-		return percentile(values, 0.99)
-	case "p99":
 		return percentile(values, 0.95)
+	case "p99":
+		return percentile(values, 0.99)
 	default:
-		return values[len(values)-1]
+		return values[0]
 	}
 }
 
