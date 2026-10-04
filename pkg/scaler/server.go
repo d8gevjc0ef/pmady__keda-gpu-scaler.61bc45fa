@@ -210,7 +210,7 @@ func parseMetadata(metadata map[string]string) (scalerConfig, error) {
 		targetValue:         80,
 		activationThreshold: 0,
 		gpuIndex:            -1,
-		aggregation:         "avg",
+		aggregation:         "max",
 		cooldownSeconds:     60,
 		pollIntervalSeconds: 10,
 	}
@@ -271,7 +271,7 @@ func parseMetadata(metadata map[string]string) (scalerConfig, error) {
 		if err != nil {
 			return cfg, fmt.Errorf("invalid gpuIndex %q: %w", v, err)
 		}
-		if i < 0 {
+		if i < -1 {
 			return cfg, fmt.Errorf("invalid gpuIndex %d: it must be -1 (all GPUs) or >= 0", i)
 		}
 		cfg.gpuIndex = i
@@ -288,6 +288,9 @@ func parseMetadata(metadata map[string]string) (scalerConfig, error) {
 		i, err := strconv.Atoi(v)
 		if err != nil {
 			return cfg, fmt.Errorf("invalid cooldownSeconds %q: %w", v, err)
+		}
+		if i < 0 {
+			return cfg, fmt.Errorf("invalid cooldownSeconds %d: it must be >= 0", i)
 		}
 		cfg.cooldownSeconds = i
 	}
@@ -310,7 +313,7 @@ func parseMetadata(metadata map[string]string) (scalerConfig, error) {
 		return cfg, fmt.Errorf("metricType %q requires vllmEndpoint to be set", cfg.metricType)
 	}
 	// Triton engine metrics require the endpoint to be set.
-	if profiles.IsVLLMMetric(cfg.metricType) && cfg.tritonEndpoint == "" {
+	if profiles.IsTritonMetric(cfg.metricType) && cfg.tritonEndpoint == "" {
 		return cfg, fmt.Errorf("metricType %q requires tritonEndpoint to be set", cfg.metricType)
 	}
 
