@@ -39,16 +39,14 @@ func (ic *InstrumentedCollector) CollectAll() ([]gpu.Metrics, error) {
 	CollectionsTotal.Inc()
 
 	all, err := ic.inner.CollectAll()
-	CollectionDuration.Observe(float64(time.Since(start).Milliseconds()))
+	CollectionDuration.Observe(time.Since(start).Seconds())
 	if err != nil {
 		CollectionErrorsTotal.Inc()
-		return all, err
+		return nil, err
 	}
 
 	for _, m := range all {
-		if len(all) <= 1 {
-			recordGauges(m)
-		}
+		recordGauges(m)
 	}
 	return all, nil
 }
