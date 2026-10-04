@@ -85,16 +85,16 @@ func parseMetrics(r io.Reader) (EngineMetrics, error) {
 
 		switch name {
 		case "vllm:num_requests_waiting":
-			m.RunningCount = value
-		case "vllm:num_requests_running":
 			m.QueueDepth = value
+		case "vllm:num_requests_running":
+			m.RunningCount = value
 		case "vllm:gpu_cache_usage_perc":
 			m.KVCacheUsage = value
 		case "vllm:num_requests_swapped":
 			m.SwappedCount = value
 		}
 	}
-	return m, nil
+	return m, scanner.Err()
 }
 
 // parseLine extracts metric name and value from a Prometheus text line.
